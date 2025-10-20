@@ -49,7 +49,7 @@ async function fetchAndStoreAccessToken(
       expiresAt: Date.now() + response.expires_in * 1000,
     };
     await browser.storage.sync.set({ accessToken });
-    scheduleAccessTokenRefresh(accessToken.expiresAt);
+    await scheduleAccessTokenRefresh(accessToken.expiresAt);
     return true;
   } catch (error) {
     console.error('Error fetching access token:', error);
@@ -58,8 +58,10 @@ async function fetchAndStoreAccessToken(
   }
 }
 
-export function scheduleAccessTokenRefresh(expiresAt: number): void {
-  browser.alarms.create(REFRESH_ACCESS_TOKEN_ALARM, {
+export async function scheduleAccessTokenRefresh(
+  expiresAt: number,
+): Promise<void> {
+  await browser.alarms.create(REFRESH_ACCESS_TOKEN_ALARM, {
     when: expiresAt - REAUTHENTICATION_BUFFER,
   });
 }

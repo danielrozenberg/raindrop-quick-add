@@ -34,7 +34,7 @@ browser.runtime.onInstalled.addListener(async () => {
     return;
   }
 
-  scheduleAccessTokenRefresh(accessToken.expiresAt);
+  await scheduleAccessTokenRefresh(accessToken.expiresAt);
 });
 
 browser.runtime.onStartup.addListener(async () => {
@@ -46,7 +46,7 @@ browser.runtime.onStartup.addListener(async () => {
     return;
   }
 
-  scheduleAccessTokenRefresh(accessToken.expiresAt);
+  await scheduleAccessTokenRefresh(accessToken.expiresAt);
 });
 
 browser.runtime.onMessage.addListener(
